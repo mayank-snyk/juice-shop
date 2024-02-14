@@ -1,4 +1,5 @@
 **Snyk Instructions**
+
 1. Fork this repo to your own Github account
 2. Import your fork into Snyk via Git
 3. Clone your fork to your local system and ``cd`` yourself to that directory in terminal/command prompt
