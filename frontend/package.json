@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "postinstall": "ngcc --tsconfig \"./src/tsconfig.app.json\""
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "axios": "1.4.0",
     
