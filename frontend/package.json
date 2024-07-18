@@ -12,6 +12,7 @@
   "private": false,
   "dependencies": {
     "axios": "1.4.0",
+    //adding a comment to change the line number
     
     "@angular-devkit/build-angular": "^0.1000.5",
     "@angular-material-extensions/password-strength": "^6.0.0",
