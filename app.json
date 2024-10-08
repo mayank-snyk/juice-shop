@@ -21,3 +21,5 @@
   "repository": "https://github.com/bkimminich/juice-shop",
   "logo": "https://raw.githubusercontent.com/bkimminich/juice-shop/master/frontend/src/assets/public/images/JuiceShop_Logo.png"
 }
+
+const password_token = 'super-secret-f8ed84e8f41e4146403dd4a6bbcea5e418d24i7';
