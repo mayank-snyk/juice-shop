@@ -10,7 +10,7 @@ const challenges = require('../data/datacache').challenges
 const users = require('../data/datacache').users
 const config = require('config')
 
-/*
+
 // Vulnerable Code for SQL Injection
 const express = require('express');
 const router = express.Router();
@@ -36,7 +36,7 @@ router.post('/login', (req, res) => {
 });
 
 module.exports = router;
-*/
+
 
 
 module.exports = function login () {
