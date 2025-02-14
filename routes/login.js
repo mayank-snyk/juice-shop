@@ -11,7 +11,6 @@ const users = require('../data/datacache').users
 const config = require('config')
 
 
-
 module.exports = function login () {
   function afterLogin (user, res, next) {
     verifyPostLoginChallenges(user)
