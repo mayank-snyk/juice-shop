@@ -1,4 +1,4 @@
-FROM node:10.0.0-buster
+FROM node:latest
 
 RUN apt-get -y update && apt-get -y install ca-certificates apt-transport-https
 
