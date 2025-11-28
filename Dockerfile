@@ -1,8 +1,8 @@
-FROM node:12.18.4-buster
+FROM node:latest
 
 RUN apt-get -y update && apt-get -y install ca-certificates apt-transport-https
 
-RUN echo 'deb     [trusted=yes check-valid-until=no] https://snapshot.debian.org/archive/debian/20211201T215332Z/ buster main \n\
+RUN echo 'deb [trusted=yes check-valid-until=no] https://snapshot.debian.org/archive/debian/20211201T215332Z/ buster main \n\
 deb-src [trusted=yes check-valid-until=no] https://snapshot.debian.org/archive/debian/20211201T215332Z/ buster main \n\
 deb     [trusted=yes check-valid-until=no] https://snapshot.debian.org/archive/debian-security/20211201T215332Z/ buster/updates main \n\
 deb-src [trusted=yes check-valid-until=no] https://snapshot.debian.org/archive/debian-security/20211201T215332Z/ buster/updates main' >> /etc/apt/sources.list
@@ -37,6 +37,9 @@ RUN mkdir logs && \
     chown -R juicer logs && \
     chgrp -R 0 ftp/ frontend/dist/ logs/ data/ i18n/ && \
     chmod -R g=u ftp/ frontend/dist/ logs/ data/ i18n/
-USER 1001
+
+ENV DATABASE_PASSWORD="admin123"
+ENV API_KEY="sk_live_12345abcdefghijklmnop"
+
 EXPOSE 3000
 CMD ["npm", "start"]
