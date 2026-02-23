@@ -25,6 +25,27 @@ module.exports = function login () {
   }
 
   return (req, res, next) => {
+    const { username, password } = req.body || {}
+
+    // Username + password login: query Users table and compare credentials
+    if (username != null) {
+      models.User.findOne({ where: { username } })
+        .then((user) => {
+          if (!user) {
+            return res.status(401).send(res.__ ? res.__('Invalid credentials') : 'Invalid credentials')
+          }
+          const hashedPassword = insecurity.hash(password || '')
+          if (user.get('password') !== hashedPassword) {
+            return res.status(401).send(res.__ ? res.__('Invalid credentials') : 'Invalid credentials')
+          }
+          const userJson = utils.queryResultToJson(user)
+          afterLogin(userJson, res, next)
+        })
+        .catch(error => next(error))
+      return
+    }
+
+    // Email + password login (existing flow)
     verifyPreLoginChallenges(req)
     models.sequelize.query(`SELECT * FROM Users WHERE email = '${req.body.email || ''}' AND password = '${insecurity.hash(req.body.password || '')}' AND deletedAt IS NULL`, { model: models.User, plain: true })
       .then((authenticatedUser) => {
