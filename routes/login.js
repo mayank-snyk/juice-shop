@@ -26,7 +26,15 @@ module.exports = function login () {
 
   return (req, res, next) => {
     verifyPreLoginChallenges(req)
-    models.sequelize.query(`SELECT * FROM Users WHERE email = '${req.body.email || ''}' AND password = '${insecurity.hash(req.body.password || '')}' AND deletedAt IS NULL`, { model: models.User, plain: true })
+    const username = req.body.username || ''
+    const password = req.body.password || ''
+    const hashedPassword = insecurity.hash(password)
+
+    const whereClause = username
+      ? { username, password: hashedPassword }
+      : { email: req.body.email || '', password: hashedPassword }
+
+    models.User.findOne({ where: whereClause })
       .then((authenticatedUser) => {
         let user = utils.queryResultToJson(authenticatedUser)
         const rememberedEmail = insecurity.userEmailFrom(req)
@@ -49,7 +57,7 @@ module.exports = function login () {
         } else if (user.data && user.data.id) {
           afterLogin(user, res, next)
         } else {
-          res.status(401).send(res.__('Invalid email or password.'))
+          res.status(401).json({ error: 'Invalid credentials.' })
         }
       }).catch(error => {
         next(error)

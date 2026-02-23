@@ -131,6 +131,7 @@ export function hasInstructions (challengeName: String): boolean {
 }
 
 export async function startHackingInstructorFor (challengeName: String): Promise<void> {
+  console.log('[Hacking Instructor] Starting for challenge:', challengeName)
   const challengeInstruction = challengeInstructions.find(({ name }) => name === challengeName) || TutorialUnavailableInstruction
 
   for (const hint of challengeInstruction!.hints) {
