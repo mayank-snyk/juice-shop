@@ -18,10 +18,10 @@ router.post('/login', (req, res) => {
     const { username, password } = req.body;
 
     // Vulnerable: Unsanitized user input directly concatenated into SQL query
-    const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+    const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
 
     let db = new sqlite3.Database('./database.db');
-    db.get(query, (err, row) => {
+    db.get(query, [username, password], (err, row) => {
         if (err) {
             return res.status(500).send('An error occurred');
         }
