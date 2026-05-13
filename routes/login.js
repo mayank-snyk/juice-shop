@@ -24,6 +24,32 @@ module.exports = function login () {
       })
   }
 
+  const express = require('express');
+const router = express.Router();
+const sqlite3 = require('sqlite3').verbose();
+
+router.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Vulnerable: Unsanitized user input directly concatenated into SQL query
+    const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+
+    let db = new sqlite3.Database('./database.db');
+    db.get(query, (err, row) => {
+        if (err) {
+            return res.status(500).send('An error occurred');
+        }
+        if (row) {
+            return res.status(200).send('Login successful');
+        } else {
+            return res.status(401).send('Invalid credentials');
+        }
+    });
+});
+
+module.exports = router;
+
+
   return (req, res, next) => {
     verifyPreLoginChallenges(req)
     models.sequelize.query(`SELECT * FROM Users WHERE email = '${req.body.email || ''}' AND password = '${insecurity.hash(req.body.password || '')}' AND deletedAt IS NULL`, { model: models.User, plain: true })
